@@ -9,6 +9,7 @@
   "author": "Torben Brams",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.0"
+    "express": "^4.16.0",
+    "spherical-geometry-js": "^1.0.1"
   }
 }

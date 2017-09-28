@@ -1,4 +1,5 @@
 const express = require('express');
+const geometry = require('spherical-geometry-js');
 var app = express();
 
 app.use(express.static('public'));
@@ -12,7 +13,6 @@ app.get('/api/polygons', function(req, res) {
 app.listen(3000);
 
 console.log('Listening on port 3000');
-
 
 
 const fs = require('fs');
@@ -34,8 +34,6 @@ fs.readFile(
   function(err, contents) {
     let lines = contents.split('\n');
     let groups = groupLines(lines);
-
-    console.dir(groups);
 
     groups.forEach(function(group) {
       group.forEach(function(cmd) {
@@ -162,8 +160,8 @@ function parseCommand(cmd) {
             pos = {
               lat: 1,
               lng: 1
-            }; // until I figure out how to do the spherical util...
-            //pos = SphericalUtil.computeOffset(mCenter, radius, deg);
+            };
+            pos = geometry.computeOffset(mCenter, radius, deg);
             addPosToCoordList(pos);
           }
         }
@@ -268,10 +266,10 @@ function parseCommand(cmd) {
           );
 
           if (pos1 != null && pos2 != null) {
-            //         fromDeg = ((int) SphericalUtil.computeHeading(mCenter, pos1)+360)%360;
-            //         toDeg = ((int) SphericalUtil.computeHeading(mCenter, pos2)+360)%360;
-            //         radius = (int) SphericalUtil.computeDistanceBetween(mCenter, pos1);
-            //         drawArcFromTo(radius, fromDeg, toDeg);
+            fromDeg = (geometry.computeHeading(mCenter, pos1) + 360) % 360;
+            toDeg = (geometry.computeHeading(mCenter, pos2) + 360) % 360;
+            radius = geometry.computeDistanceBetween(mCenter, pos1);
+            drawArcFromTo(radius, fromDeg, toDeg);
           }
         } else {
           console.log("parseCommand: Problem parsing draw between arguments");
@@ -356,8 +354,8 @@ function drawArcFromTo(radius, fromDeg, toDeg) {
     let degrees = fromDeg;
     let step = mStep_direction * STEP_SIZE;
     do {
-      //            newPos = SphericalUtil.computeOffset(mCenter, radius, degrees);
-      //            addPosToCoordList(newPos);
+      newPos = geometry.computeOffset(mCenter, radius, degrees);
+      addPosToCoordList(newPos);
       degrees += step;
       if (Math.abs(((degrees + 360) % 360) - toDeg) < STEP_SIZE)
         break;

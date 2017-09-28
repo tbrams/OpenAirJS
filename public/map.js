@@ -2,10 +2,10 @@ function initMap() {
 
   // Create the map.
   var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 8,
+    zoom: 10,
     center: {
-      lat: 55.5,
-      lng: 11.0
+      lat: 39.48583333333333,
+      lng: -119.76694444444445
     },
     mapTypeId: 'terrain'
   });
