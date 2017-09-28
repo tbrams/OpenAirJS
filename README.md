@@ -1,4 +1,4 @@
-# OpenAir™ Command Parser
+# OpenAir™ Command Parser JS
 This is an OpenAir™ Language Parser for Google Maps implemented in javascript.
 
 ## Background
